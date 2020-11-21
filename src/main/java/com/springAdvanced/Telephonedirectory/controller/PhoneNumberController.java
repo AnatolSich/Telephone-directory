@@ -3,6 +3,7 @@ package com.springAdvanced.Telephonedirectory.controller;
 
 import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
 import com.springAdvanced.Telephonedirectory.service.PhoneNumberService;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +41,11 @@ public class PhoneNumberController {
     private int savePhoneNumber(@RequestBody PhoneNumber phoneNumber) {
         phoneNumberService.saveOrUpdate(phoneNumber);
         return phoneNumber.getId();
+    }
+
+    @RequestMapping(value = "/phoneNumbers", method = RequestMethod.GET)
+    public String init(@ModelAttribute("model") ModelMap model) {
+        model.addAttribute("numberList", phoneNumberService.getAllPhoneNumber());
+        return "index";
     }
 }
