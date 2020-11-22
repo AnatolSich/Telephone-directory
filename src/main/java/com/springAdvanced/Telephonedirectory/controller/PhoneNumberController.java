@@ -91,16 +91,11 @@ public class PhoneNumberController {
     @PostMapping("/upload")
     public ModelAndView uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
-        try {
             try {
-                System.out.println("file = " + new String(file.getBytes(), StandardCharsets.UTF_8));
                 phoneNumberService.saveList(file);
             } catch (Exception e) {
-                throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+                throw new RuntimeException("Could not store data of the file. Error: " + e.getMessage());
             }
-        } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-        }
         var list = phoneNumberRepository.findAll();
         //  System.out.println("SIZE = " + list.size());
         var params = new HashMap<String, Object>();
@@ -114,7 +109,7 @@ public class PhoneNumberController {
         return new ModelAndView("upload_file", params);
     }
 
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/download", headers = "Accept=application/pdf")
     public ModelAndView downloadForm() {
         var list = phoneNumberRepository.findAll();
         var params = new HashMap<String, Object>();

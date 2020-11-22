@@ -1,5 +1,5 @@
 <html>
-<head><title> FreeMarker Spring MVC Hello World</title>
+<head><title> FreeMarker Spring MVC Users</title>
 
     <style>
         body, input {
@@ -68,7 +68,7 @@
 <body>
 <div id="header">
     <H2>
-        FreeMarker Spring MVC Hello World
+        FreeMarker Spring MVC Users
     </H2>
 </div>
 

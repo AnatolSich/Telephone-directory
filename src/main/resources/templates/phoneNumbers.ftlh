@@ -1,5 +1,5 @@
 <html>
-<head><title> FreeMarker Spring MVC Hello World</title>
+<head><title> FreeMarker Spring MVC Phone numbers List</title>
 
     <style>
         body, input {
@@ -78,18 +78,8 @@
     </form>
 
     <form name="Download file" action="/download">
-        <input type="submit" value="   Download PDF file  "/>
+        <input type="submit" value="   Download PDF file  " accept="application/pdf"/>
     </form>
-    <#-- <fieldset>
-         <legend>Add phone number</legend>
-         <form name="phone number" action="add" method="post">
-             Number : <input type="text" name="number"/> <br/>
-             User: <input type="text" name="user"/> <br/>
-             Company: <input type="text" name="company"/> <br/>
-             <input type="submit" value="   Save   "/>
-         </form>
-     </fieldset>-->
-
     <br/>
     <table class="datatable">
         <tr>

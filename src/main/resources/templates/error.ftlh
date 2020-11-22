@@ -11,13 +11,6 @@
             height: 100%;
             font-size: 100%;
         }
-        /*body {
-            line-height: 1.42857143;
-            color: #333;
-            background-color: #fff;
-        }*/
-
-
         body {
             font-size: 14px;
             min-width: initial;
@@ -213,42 +206,19 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="main">
-        <div class="form-table">
-            <form class="simple-form">
-            <#if mode == "pdf"><#global lineStyle="underline"/></#if>
-                <div class="form-group">
-                    <label for="exampleInputMobile"></label>
-                    <span class="content-line ${lineStyle?default("")}">&nbsp;&nbsp;&nbsp;Phone numbers list&nbsp;&nbsp;&nbsp;</span>
-                </div>
-            </form>
-        </div>
-        <br/>
-        <hr/>
-        <br/>
-        <div class="form-table">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Number</th>
-                    <th>User</th>
-                    <th>Company</th>
-                </tr>
-                </thead>
-                <tbody>
 
-                <#list phoneNumbers as phone_number>
-                    <tr>
-                        <td>${phone_number.number}</td>
-                        <td>${phone_number.user.last_name}</td>
-                        <td>${phone_number.company.name}</td>
-                    </tr>
-                </#list>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div id="header">
+    <H2>
+        FreeMarker Spring MVC
+    </H2>
+</div>
+
+<h1>Error Page</h1>
+<p>Application has encountered an error. Please contact support </p>
+
+    Failed URL: ${url} <br/>
+    Exception:  ${exception.message}
+
 </div>
 </body>
 </html>

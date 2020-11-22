@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Spring Boot upload multiple files example with freemaker</title>
+        <title>Spring Boot upload multiple file with freemarker</title>
     </head>
 
     <body>
@@ -15,31 +15,5 @@
                 <input type="submit" value="Upload file">
             </p>
         </form>
-        <#--    <div>
-             <div>Uploaded files:</div>
-             <#list files as file>
-             <div>
-             ${file.getName()}
-             </div>
-             </#list>
-         </di   <#--  <script>
-             function updateFiles() {
-                 var nBytes = 0,
-                     fileInfo = '',
-                         oFiles = document.getElementById("fileInput").files,
-                         nFiles = oFiles.length;
-                 for (var nFileId = 0; nFileId < nFiles; nFileId++) {
-                     fileInfo += 'Filename=';
-                     fileInfo += oFiles[nFileId].name;
-                     fileInfo +=', size=';
-                     fileInfo += oFiles[nFileId].size;
-                     fileInfo +=' bytes';
-                     fileInfo +='</br>';
-                 }
-
-                 document.getElementById("selectedFiles").innerHTML = fileInfo;
-
-             }
-         </script>-->
     </body>
 </html>

@@ -74,7 +74,7 @@ public class PhoneNumberService {
             JSONParser parser = new JSONParser();
             jsonObject = (JSONObject) parser.parse(payload);
         } catch (ParseException | IOException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
         System.out.println("jsonObject = " + jsonObject);
         return jsonObject;
