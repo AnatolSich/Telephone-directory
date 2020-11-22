@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //creating RestController
 @RestController
@@ -111,5 +112,16 @@ public class PhoneNumberController {
     public ModelAndView forwardUpload(Model model) {
         var params = new HashMap<String, Object>();
         return new ModelAndView("upload_file", params);
+    }
+
+    @GetMapping(value = "/download")
+    public ModelAndView downloadForm() {
+        var list = phoneNumberRepository.findAll();
+        var params = new HashMap<String, Object>();
+        params.put("phoneNumbers", list);
+        params.put("mode", "pdf");
+        // return a view which will be resolved by an excel view resolver
+        return new ModelAndView("simpleFormPDF", params);
+
     }
 }
