@@ -37,7 +37,7 @@ public class FreemarkerUtils {
             return stringWriter.toString();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
-            throw new RuntimeException("load fail file");
+            throw new RuntimeException("load file failed");
         }
     }
 }

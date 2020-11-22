@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-//defining the business logic
 @Service
 public class PhoneNumberService {
 
@@ -63,7 +62,6 @@ public class PhoneNumberService {
         for (PhoneNumber phoneNumber : list
         ) {
             PhoneNumber number = phoneNumberRepository.save(phoneNumber);
-            System.out.println("SAVED = " + number.getNumber());
         }
     }
 
@@ -76,7 +74,6 @@ public class PhoneNumberService {
         } catch (ParseException | IOException e) {
             throw new RuntimeException(e.getMessage());
         }
-        System.out.println("jsonObject = " + jsonObject);
         return jsonObject;
     }
 

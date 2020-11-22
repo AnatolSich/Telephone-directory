@@ -2,18 +2,14 @@ package com.springAdvanced.Telephonedirectory.model;
 
 import javax.persistence.*;
 
-//mark class as an Entity
 @Entity
-//defining class name as Table name
 @Table(name = "users")
 public class User {
-    //mark id as primary key
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//defining id as column name
     @Column
     private int id;
-    //defining name as column name
     @Column
     private String first_name;
     @Column
