@@ -19,7 +19,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    @Bean
+ /*   @Bean
     public FreeMarkerViewResolver freemarkerViewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
         resolver.setCache(true);
@@ -33,6 +33,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
         freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/views/ftl/");
         return freeMarkerConfigurer;
-    }
+    }*/
 
 }

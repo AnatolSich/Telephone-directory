@@ -1,12 +1,21 @@
 package com.springAdvanced.Telephonedirectory.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 
 //mark class as an Entity
 @Entity
 //defining class name as Table name
 @Table(name = "phone_numbers")
+@Builder
+@AllArgsConstructor
 public class PhoneNumber {
+
+    public PhoneNumber() {
+    }
+
     //mark id as primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
