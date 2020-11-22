@@ -45,8 +45,8 @@ public class PhoneNumberService {
     }
 
     //getting a specific record
-    public PhoneNumber getPhoneNumberById(int id) {
-        return phoneNumberRepository.findById(id).get();
+    public PhoneNumber getPhoneNumberById(String number) {
+        return phoneNumberRepository.findById(number).get();
     }
 
     public void saveOrUpdate(PhoneNumber phoneNumber) {
@@ -54,8 +54,8 @@ public class PhoneNumberService {
     }
 
     //deleting a specific record
-    public void delete(int id) {
-        phoneNumberRepository.deleteById(id);
+    public void delete(String number) {
+        phoneNumberRepository.deleteById(number);
     }
 
     public void saveList(MultipartFile file) {
@@ -63,7 +63,7 @@ public class PhoneNumberService {
         for (PhoneNumber phoneNumber : list
         ) {
             PhoneNumber number = phoneNumberRepository.save(phoneNumber);
-            System.out.println("SAVED = " + number.getId());
+            System.out.println("SAVED = " + number.getNumber());
         }
     }
 

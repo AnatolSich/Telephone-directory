@@ -41,22 +41,22 @@ public class PhoneNumberController {
     }
 
     //creating a get mapping that retrieves a specific phoneNumber
-    @GetMapping("/phoneNumber/{id}")
-    private PhoneNumber getPhoneNumber(@PathVariable("id") int id) {
-        return phoneNumberService.getPhoneNumberById(id);
+    @GetMapping("/phoneNumber/{number}")
+    private PhoneNumber getPhoneNumber(@PathVariable("number") String number) {
+        return phoneNumberService.getPhoneNumberById(number);
     }
 
     //creating a delete mapping that deletes a specific phoneNumber
-    @DeleteMapping("/phoneNumber/{id}")
-    private void deletePhoneNumber(@PathVariable("id") int id) {
-        phoneNumberService.delete(id);
+    @DeleteMapping("/phoneNumber/{number}")
+    private void deletePhoneNumber(@PathVariable("number") String number) {
+        phoneNumberService.delete(number);
     }
 
     //creating post mapping that post the phoneNumber detail in the database
     @PostMapping("/phoneNumber")
-    private int savePhoneNumber(@RequestBody PhoneNumber phoneNumber) {
+    private String savePhoneNumber(@RequestBody PhoneNumber phoneNumber) {
         phoneNumberService.saveOrUpdate(phoneNumber);
-        return phoneNumber.getId();
+        return phoneNumber.getNumber();
     }
 
 /*    @RequestMapping(value = "/phoneNumbers", method = RequestMethod.GET)
@@ -78,7 +78,7 @@ public class PhoneNumberController {
         return new ModelAndView("users", params);
     }
 
-    @GetMapping(value = "/phoneNumbers")
+    @GetMapping(value = "/")
     public ModelAndView phoneNumbers(@ModelAttribute("model") ModelMap model) {
         var list = phoneNumberRepository.findAll();
         //  System.out.println("SIZE = " + list.size());

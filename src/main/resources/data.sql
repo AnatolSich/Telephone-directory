@@ -18,8 +18,7 @@ CREATE TABLE phone_companies
 
 CREATE TABLE phone_numbers
 (
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    number      VARCHAR(250) NOT NULL,
+    number      VARCHAR(250) PRIMARY KEY,
     user_id    int          not null,
     company_id int          not null,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,

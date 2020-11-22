@@ -17,30 +17,17 @@ public class PhoneNumber {
     }
 
     //mark id as primary key
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//defining id as column name
-    @Column
-    private int id;
-    //defining name as column name
-    @Column
     private String number;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "companyId", nullable = false)
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNumber() {
         return number;

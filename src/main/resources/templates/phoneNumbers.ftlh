@@ -68,13 +68,17 @@
 <body>
 <div id="header">
     <H2>
-        FreeMarker Spring MVC Hello World
+        FreeMarker Spring MVC Phone numbers List
     </H2>
 </div>
 
 <div id="content">
 
-    <fieldset>
+    <form name="Upload file" action="/upload_file">
+        <input type="submit" value="   Upload file  "/>
+    </form>
+
+   <#-- <fieldset>
         <legend>Add phone number</legend>
         <form name="phone number" action="add" method="post">
             Number : <input type="text" name="number"/> <br/>
@@ -82,7 +86,7 @@
             Company: <input type="text" name="company"/> <br/>
             <input type="submit" value="   Save   "/>
         </form>
-    </fieldset>
+    </fieldset>-->
 
     <br/>
     <table class="datatable">
