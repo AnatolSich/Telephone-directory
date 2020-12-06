@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class PhoneNumberDto {
     private String number;
-    private Integer userId;
-    private Integer companyId;
+    private Long userId;
+    private Long companyId;
 }

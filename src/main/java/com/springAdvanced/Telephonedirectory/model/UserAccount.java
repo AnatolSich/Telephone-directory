@@ -17,17 +17,22 @@ public class UserAccount implements Serializable {
 
     public UserAccount() {
     }
-
     //mark as primary key
     @Id
+    @Column(name = "user_id")
+    private Long userId;
+    //mark as primary key
+    @Id
+    @Column(name = "company_id")
+    private Long companyId;
+
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
 
-    //mark as primary key
-    @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "company_id", nullable = false)
+    @JoinColumn(name = "company_id", nullable = false, insertable = false, updatable = false)
     private Company company;
 
     @Column

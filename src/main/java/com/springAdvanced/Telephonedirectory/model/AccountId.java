@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @NoArgsConstructor
@@ -11,6 +12,6 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class AccountId implements Serializable {
 
-    private String user;
-    private String company;
+    private Long userId;
+    private Long companyId;
 }

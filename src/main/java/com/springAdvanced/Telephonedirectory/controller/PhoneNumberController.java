@@ -1,7 +1,9 @@
 package com.springAdvanced.Telephonedirectory.controller;
 
 
+import com.springAdvanced.Telephonedirectory.model.AccountId;
 import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
+import com.springAdvanced.Telephonedirectory.model.UserAccount;
 import com.springAdvanced.Telephonedirectory.repository.CompanyRepository;
 import com.springAdvanced.Telephonedirectory.repository.PhoneNumberRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserAccountRepository;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
 //creating RestController
 @RestController
 public class PhoneNumberController {
+
+    public static BigDecimal CHANGE_OPERATOR_FEE = new BigDecimal("250.00");
 
     final
     PhoneNumberService phoneNumberService;
@@ -76,12 +81,12 @@ public class PhoneNumberController {
 
     @PostMapping("/phoneNumber/update/{number}")
     private ModelAndView updatePhoneNumber(@PathVariable("number") String number,
-                                     @RequestParam(value = "userId") String userId,
-                                     @RequestParam(value = "companyId") String companyId) {
+                                           @RequestParam(value = "userId") String userId,
+                                           @RequestParam(value = "companyId") String companyId) {
         PhoneNumber phoneNumber = phoneNumberService.getPhoneNumberById(number);
-        phoneNumber.setUser(userRepository.findById(Integer.parseInt(userId)).get());
-        phoneNumber.setCompany(companyRepository.findById(Integer.parseInt(companyId)).get());
-        phoneNumberService.saveOrUpdate(phoneNumber);
+        phoneNumber.setUser(userRepository.findById(Long.parseLong(userId)).get());
+        phoneNumber.setCompany(companyRepository.findById(Long.parseLong(companyId)).get());
+        changeMobileOperator(phoneNumber);
         var phoneNumbers = phoneNumberRepository.findAll();
         var accounts = userAccountRepository.findAll();
         var params = new HashMap<String, Object>();
@@ -89,6 +94,27 @@ public class PhoneNumberController {
         params.put("accounts", accounts);
         return new ModelAndView("index", params);
     }
+
+
+    private void changeMobileOperator(PhoneNumber phoneNumber) {
+        AccountId accountId = new AccountId(phoneNumber.getUser().getId(), phoneNumber.getCompany().getId());
+        UserAccount userAccount = userAccountRepository.findById(accountId).get();
+        BigDecimal accountBalance = userAccount.getAmount().subtract(CHANGE_OPERATOR_FEE);
+        if (accountBalance.compareTo(new BigDecimal("0.0")) < 0) {
+            throw new RuntimeException("Insufficient funds in the account");
+        }
+        UserAccount newUserAccount = UserAccount.builder()
+                .userId(phoneNumber.getUser().getId())
+                .companyId(phoneNumber.getCompany().getId())
+                .user(phoneNumber.getUser())
+                .company(phoneNumber.getCompany())
+                .amount(accountBalance)
+                .build();
+        userAccountRepository.save(newUserAccount);
+        phoneNumberService.saveOrUpdate(phoneNumber);
+    }
+
+
 
 /*    @RequestMapping(value = "/phoneNumbers", method = RequestMethod.GET)
     public String init(@ModelAttribute("model") ModelMap model) {

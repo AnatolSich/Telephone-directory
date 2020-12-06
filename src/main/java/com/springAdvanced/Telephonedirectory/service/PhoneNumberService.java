@@ -107,8 +107,8 @@ public class PhoneNumberService {
     private PhoneNumber mapJsonToPhonenumber(JSONObject jsonObject) {
         PhoneNumberDto phoneNumberDto = PhoneNumberDto.builder()
                 .number(checkJsonParams(jsonObject.get("number")))
-                .userId(Integer.parseInt(checkJsonParams(jsonObject.get("user_id"))))
-                .companyId(Integer.parseInt(checkJsonParams(jsonObject.get("company_id"))))
+                .userId(Long.parseLong(checkJsonParams(jsonObject.get("user_id"))))
+                .companyId(Long.parseLong(checkJsonParams(jsonObject.get("company_id"))))
                 .build();
         System.out.println("phoneNumberDto = " + phoneNumberDto);
         User user = userRepository.findById(phoneNumberDto.getUserId()).get();
