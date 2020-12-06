@@ -23,6 +23,10 @@ Initial page - http://localhost:8080/
 
 #### HW3
 
+To change operator - push Update button near the PhoneNumber and
+type needed company id in the related field (use dictionaries below).  
+Fee for changing - 150.
+
 1. You need to add a new entity: UserAccount. Each account is associated with a specific phone operator 
 and stores the amount of money the user has for operations from this number.
 2. Add the method changeMobileOperator, which will allow changing the phone operator and storing the phone number. 

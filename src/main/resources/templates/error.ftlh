@@ -217,7 +217,7 @@
 <p>Application has encountered an error. Please contact support </p>
 
     Failed URL: ${url} <br/>
-    Exception:  ${exception.message}
+    Exception: <br/> ${exception.message}
 
 </div>
 </body>

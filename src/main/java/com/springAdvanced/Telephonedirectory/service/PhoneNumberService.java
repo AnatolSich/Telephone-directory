@@ -4,15 +4,20 @@ package com.springAdvanced.Telephonedirectory.service;
 import com.springAdvanced.Telephonedirectory.model.*;
 import com.springAdvanced.Telephonedirectory.repository.CompanyRepository;
 import com.springAdvanced.Telephonedirectory.repository.PhoneNumberRepository;
+import com.springAdvanced.Telephonedirectory.repository.UserAccountRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +25,23 @@ import java.util.List;
 @Service
 public class PhoneNumberService {
 
+    public static BigDecimal CHANGE_OPERATOR_FEE = new BigDecimal("250.00");
+
+
     final
     PhoneNumberRepository phoneNumberRepository;
     final
     UserRepository userRepository;
     final
     CompanyRepository companyRepository;
+    final
+    UserAccountRepository userAccountRepository;
 
-    public PhoneNumberService(PhoneNumberRepository phoneNumberRepository, UserRepository userRepository, CompanyRepository companyRepository) {
+    public PhoneNumberService(PhoneNumberRepository phoneNumberRepository, UserRepository userRepository, CompanyRepository companyRepository, UserAccountRepository userAccountRepository) {
         this.phoneNumberRepository = phoneNumberRepository;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     public void changeMobileOperator(PhoneNumber phoneNumber, UserAccount userAccount){
@@ -79,6 +90,26 @@ public class PhoneNumberService {
             PhoneNumber number = phoneNumberRepository.save(phoneNumber);
         }
     }
+
+    @Transactional (propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    public void changeMobileOperator(PhoneNumber phoneNumber) {
+        AccountId accountId = new AccountId(phoneNumber.getUser().getId(), phoneNumber.getCompany().getId());
+        UserAccount userAccount = userAccountRepository.findById(accountId).get();
+        BigDecimal accountBalance = userAccount.getAmount().subtract(CHANGE_OPERATOR_FEE);
+        if (accountBalance.compareTo(new BigDecimal("0.0")) < 0) {
+            throw new RuntimeException("Insufficient funds in the account");
+        }
+        UserAccount newUserAccount = UserAccount.builder()
+                .userId(phoneNumber.getUser().getId())
+                .companyId(phoneNumber.getCompany().getId())
+                .user(phoneNumber.getUser())
+                .company(phoneNumber.getCompany())
+                .amount(accountBalance)
+                .build();
+        userAccountRepository.save(newUserAccount);
+        saveOrUpdate(phoneNumber);
+    }
+
 
     public JSONObject parseToJson(MultipartFile file) {
         JSONObject jsonObject = new JSONObject();
