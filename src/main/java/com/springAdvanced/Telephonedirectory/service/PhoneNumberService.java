@@ -1,10 +1,7 @@
 package com.springAdvanced.Telephonedirectory.service;
 
 
-import com.springAdvanced.Telephonedirectory.model.Company;
-import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
-import com.springAdvanced.Telephonedirectory.model.PhoneNumberDto;
-import com.springAdvanced.Telephonedirectory.model.User;
+import com.springAdvanced.Telephonedirectory.model.*;
 import com.springAdvanced.Telephonedirectory.repository.CompanyRepository;
 import com.springAdvanced.Telephonedirectory.repository.PhoneNumberRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
@@ -36,11 +33,29 @@ public class PhoneNumberService {
         this.companyRepository = companyRepository;
     }
 
+    public void changeMobileOperator(PhoneNumber phoneNumber, UserAccount userAccount){
+
+    }
+
     //getting all records
     public List<PhoneNumber> getAllPhoneNumber() {
-        List<PhoneNumber> numbers = new ArrayList<PhoneNumber>();
+        List<PhoneNumber> numbers = new ArrayList<>();
         phoneNumberRepository.findAll().forEach(number -> numbers.add(number));
         return numbers;
+    }
+
+    //getting all records
+    public List<Company> getAllCompany() {
+        List<Company> companies = new ArrayList<>();
+        companyRepository.findAll().forEach(company -> companies.add(company));
+        return companies;
+    }
+
+    //getting all records
+    public List<User> getAllUser() {
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(user -> users.add(user));
+        return users;
     }
 
     //getting a specific record

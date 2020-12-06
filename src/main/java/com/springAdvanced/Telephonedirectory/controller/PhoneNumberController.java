@@ -2,7 +2,9 @@ package com.springAdvanced.Telephonedirectory.controller;
 
 
 import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
+import com.springAdvanced.Telephonedirectory.repository.CompanyRepository;
 import com.springAdvanced.Telephonedirectory.repository.PhoneNumberRepository;
+import com.springAdvanced.Telephonedirectory.repository.UserAccountRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
 import com.springAdvanced.Telephonedirectory.service.PhoneNumberService;
 import org.springframework.ui.Model;
@@ -23,12 +25,18 @@ public class PhoneNumberController {
     final
     UserRepository userRepository;
     final
+    CompanyRepository companyRepository;
+    final
     PhoneNumberRepository phoneNumberRepository;
+    final
+    UserAccountRepository userAccountRepository;
 
-    public PhoneNumberController(PhoneNumberService phoneNumberService, UserRepository userRepository, PhoneNumberRepository phoneNumberRepository) {
+    public PhoneNumberController(PhoneNumberService phoneNumberService, UserRepository userRepository, CompanyRepository companyRepository, PhoneNumberRepository phoneNumberRepository, UserAccountRepository userAccountRepository) {
         this.phoneNumberService = phoneNumberService;
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
         this.phoneNumberRepository = phoneNumberRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     //creating a get mapping that retrieves all the phoneNumber from the database
@@ -43,6 +51,16 @@ public class PhoneNumberController {
         return phoneNumberService.getPhoneNumberById(number);
     }
 
+    //update a specific phoneNumber
+    @GetMapping("/phoneNumber/update/{number}")
+    private ModelAndView updatePhoneNumber(@PathVariable("number") String number) {
+        var params = new HashMap<String, Object>();
+        params.put("phoneNumber", phoneNumberService.getPhoneNumberById(number));
+        params.put("companies", phoneNumberService.getAllCompany());
+        params.put("users", phoneNumberService.getAllUser());
+        return new ModelAndView("update_number", params);
+    }
+
     //creating a delete mapping that deletes a specific phoneNumber
     @DeleteMapping("/phoneNumber/{number}")
     private void deletePhoneNumber(@PathVariable("number") String number) {
@@ -54,6 +72,22 @@ public class PhoneNumberController {
     private String savePhoneNumber(@RequestBody PhoneNumber phoneNumber) {
         phoneNumberService.saveOrUpdate(phoneNumber);
         return phoneNumber.getNumber();
+    }
+
+    @PostMapping("/phoneNumber/update/{number}")
+    private ModelAndView updatePhoneNumber(@PathVariable("number") String number,
+                                     @RequestParam(value = "userId") String userId,
+                                     @RequestParam(value = "companyId") String companyId) {
+        PhoneNumber phoneNumber = phoneNumberService.getPhoneNumberById(number);
+        phoneNumber.setUser(userRepository.findById(Integer.parseInt(userId)).get());
+        phoneNumber.setCompany(companyRepository.findById(Integer.parseInt(companyId)).get());
+        phoneNumberService.saveOrUpdate(phoneNumber);
+        var phoneNumbers = phoneNumberRepository.findAll();
+        var accounts = userAccountRepository.findAll();
+        var params = new HashMap<String, Object>();
+        params.put("phoneNumbers", phoneNumbers);
+        params.put("accounts", accounts);
+        return new ModelAndView("index", params);
     }
 
 /*    @RequestMapping(value = "/phoneNumbers", method = RequestMethod.GET)
@@ -77,26 +111,28 @@ public class PhoneNumberController {
 
     @GetMapping(value = "/")
     public ModelAndView phoneNumbers(@ModelAttribute("model") ModelMap model) {
-        var list = phoneNumberRepository.findAll();
-        //  System.out.println("SIZE = " + list.size());
+        var phoneNumbers = phoneNumberRepository.findAll();
+        var accounts = userAccountRepository.findAll();
         var params = new HashMap<String, Object>();
-        params.put("phoneNumbers", list);
-        return new ModelAndView("phoneNumbers", params);
+        params.put("phoneNumbers", phoneNumbers);
+        params.put("accounts", accounts);
+        return new ModelAndView("index", params);
     }
 
     @PostMapping("/upload")
     public ModelAndView uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
-            try {
-                phoneNumberService.saveList(file);
-            } catch (Exception e) {
-                throw new RuntimeException("Could not store data of the file. Error: " + e.getMessage());
-            }
-        var list = phoneNumberRepository.findAll();
-        //  System.out.println("SIZE = " + list.size());
+        try {
+            phoneNumberService.saveList(file);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not store data of the file. Error: " + e.getMessage());
+        }
+        var phoneNumbers = phoneNumberRepository.findAll();
+        var accounts = userAccountRepository.findAll();
         var params = new HashMap<String, Object>();
-        params.put("phoneNumbers", list);
-        return new ModelAndView("phoneNumbers", params);
+        params.put("phoneNumbers", phoneNumbers);
+        params.put("accounts", accounts);
+        return new ModelAndView("index", params);
     }
 
     @RequestMapping("/upload_file")

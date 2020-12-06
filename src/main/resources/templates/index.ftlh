@@ -86,12 +86,40 @@
             <th>Number</th>
             <th>User</th>
             <th>Company</th>
+            <th>Company Update</th>
         </tr>
         <#list phoneNumbers as phone_number>
             <tr>
                 <td>${phone_number.number}</td>
                 <td>${phone_number.user.last_name}</td>
                 <td>${phone_number.company.name}</td>
+                <td><a href="/phoneNumber/update/${phone_number.number}">Update</a></td>
+            </tr>
+        </#list>
+    </table>
+
+</div>
+
+
+<div id="header">
+    <H2>
+        FreeMarker Spring Transaction Accounts List
+    </H2>
+</div>
+
+<div id="content">
+    <br/>
+    <table class="datatable">
+        <tr>
+            <th>User</th>
+            <th>Company</th>
+            <th>Amount</th>
+        </tr>
+        <#list accounts as account>
+            <tr>
+                <td>${account.user.last_name}</td>
+                <td>${account.company.name}</td>
+                <td>${account.amount}</td>
             </tr>
         </#list>
     </table>

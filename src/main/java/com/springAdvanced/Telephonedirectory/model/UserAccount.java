@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "user_accounts")
+//mark as composite primary key
+@IdClass(AccountId.class)
 @Builder
 @AllArgsConstructor
 public class UserAccount implements Serializable {
