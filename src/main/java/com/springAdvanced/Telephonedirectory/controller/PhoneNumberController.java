@@ -52,15 +52,7 @@ public class PhoneNumberController {
         return phoneNumberService.getPhoneNumberById(number);
     }
 
-    //update a specific phoneNumber
-    @GetMapping("/phoneNumber/update/{number}")
-    private ModelAndView updatePhoneNumber(@PathVariable("number") String number) {
-        var params = new HashMap<String, Object>();
-        params.put("phoneNumber", phoneNumberService.getPhoneNumberById(number));
-        params.put("companies", phoneNumberService.getAllCompany());
-        params.put("users", phoneNumberService.getAllUser());
-        return new ModelAndView("update_number", params);
-    }
+
 
     //creating a delete mapping that deletes a specific phoneNumber
     @DeleteMapping("/phoneNumber/{number}")
@@ -75,6 +67,17 @@ public class PhoneNumberController {
         return phoneNumber.getNumber();
     }
 
+    //update a specific phoneNumber
+    @GetMapping("/phoneNumber/update/{number}")
+    private ModelAndView updatePhoneNumber(@PathVariable("number") String number) {
+        var params = new HashMap<String, Object>();
+        params.put("phoneNumber", phoneNumberService.getPhoneNumberById(number));
+        params.put("companies", phoneNumberService.getAllCompany());
+        params.put("users", phoneNumberService.getAllUser());
+        return new ModelAndView("update_number", params);
+    }
+
+
     @PostMapping("/phoneNumber/update/{number}")
     private ModelAndView updatePhoneNumber(@PathVariable("number") String number,
                                            @RequestParam(value = "userId") String userId,
@@ -82,15 +85,8 @@ public class PhoneNumberController {
         PhoneNumber phoneNumber = phoneNumberService.getPhoneNumberById(number);
         phoneNumber.setUser(userRepository.findById(Long.parseLong(userId)).get());
         phoneNumber.setCompany(companyRepository.findById(Long.parseLong(companyId)).get());
-
         phoneNumberService.changeMobileOperator(phoneNumber);
-
-        var phoneNumbers = phoneNumberRepository.findAll();
-        var accounts = userAccountRepository.findAll();
-        var params = new HashMap<String, Object>();
-        params.put("phoneNumbers", phoneNumbers);
-        params.put("accounts", accounts);
-        return new ModelAndView("index", params);
+        return new ModelAndView("redirect:/");
     }
 
 
@@ -107,14 +103,6 @@ public class PhoneNumberController {
         model.addAttribute("numberList", list);
         return "index";
     }*/
-
-    @GetMapping(value = "/users")
-    public ModelAndView users(@ModelAttribute("model") ModelMap model) {
-        var users = userRepository.findAll();
-        var params = new HashMap<String, Object>();
-        params.put("users", users);
-        return new ModelAndView("users", params);
-    }
 
     @GetMapping(value = "/")
     public ModelAndView phoneNumbers(@ModelAttribute("model") ModelMap model) {
@@ -134,12 +122,7 @@ public class PhoneNumberController {
         } catch (Exception e) {
             throw new RuntimeException("Could not store data of the file. Error: " + e.getMessage());
         }
-        var phoneNumbers = phoneNumberRepository.findAll();
-        var accounts = userAccountRepository.findAll();
-        var params = new HashMap<String, Object>();
-        params.put("phoneNumbers", phoneNumbers);
-        params.put("accounts", accounts);
-        return new ModelAndView("index", params);
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping("/upload_file")

@@ -76,9 +76,9 @@
 
     <fieldset>
         <legend>Add user</legend>
-        <form name="user" action="add" method="post">
-            Number : <input type="text" name="first name"/> <br/>
-            Model: <input type="text" name="last name"/> <br/>
+        <form name="user" action="/user" method="post">
+            First name : <input type="text" name="first_name"/> <br/>
+            Last name  : <input type="text" name="last_name"/> <br/>
             <input type="submit" value="   Save   "/>
         </form>
     </fieldset>
@@ -93,10 +93,16 @@
             <tr>
                 <td>${user.first_name}</td>
                 <td>${user.last_name}</td>
+                <td><a href="/user/edit/${user.id}">Edit</a></td>
             </tr>
         </#list>
     </table>
 
 </div>
+
+<form name="Main page" action="/" method="get">
+    <input type="submit" value="   Main page  "/>
+</form>
+
 </body>
 </html>  

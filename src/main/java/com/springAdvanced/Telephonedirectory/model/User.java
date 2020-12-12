@@ -1,9 +1,16 @@
 package com.springAdvanced.Telephonedirectory.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

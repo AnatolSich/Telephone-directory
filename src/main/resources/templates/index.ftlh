@@ -124,6 +124,10 @@
         </#list>
     </table>
 
+    <form name="Users" action="/users" method="get">
+        <input type="submit" value="   Users  "/>
+    </form>
+
 </div>
 </body>
 </html>  
