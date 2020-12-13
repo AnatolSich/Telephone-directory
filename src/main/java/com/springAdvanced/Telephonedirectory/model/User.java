@@ -1,5 +1,6 @@
 package com.springAdvanced.Telephonedirectory.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+   // @JsonProperty
     @Column
     private String first_name;
+  //  @JsonProperty
     @Column
     private String last_name;
 

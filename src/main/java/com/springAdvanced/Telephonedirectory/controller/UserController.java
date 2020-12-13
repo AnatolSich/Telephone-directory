@@ -61,13 +61,13 @@ public class UserController {
         return new ModelAndView("edit_user", params);
     }
 
-    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     private User getUser(@PathVariable("id") Long id) {
         return userRepository.findById(id).get();
     }
 
-    @GetMapping(value = "/users/{limit}/{sort}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/users/{limit}/{sort}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     private List<User> getListUserLimit(@PathVariable("limit") Long limit,
                                         @PathVariable("sort") String sort) {

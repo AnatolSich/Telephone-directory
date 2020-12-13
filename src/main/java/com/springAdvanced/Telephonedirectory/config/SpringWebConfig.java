@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -150,4 +151,20 @@ public class SpringWebConfig implements WebMvcConfigurer {
         ));
     }*/
 
+    //The order of checking is always path extension, parameter, Accept header.
+    //Enable the use of the URL parameter but instead of using the default parameter, format, we will use mediaType instead.
+    //Ignore the Accept header completely.
+    //Don't use the JAF, instead specify the media type mappings manually
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.favorPathExtension(false).
+                favorParameter(true).
+                parameterName("mediaType").
+                ignoreAcceptHeader(true).
+                useJaf(false).
+                defaultContentType(MediaType.APPLICATION_JSON).
+                mediaType("json", MediaType.APPLICATION_JSON).
+                mediaType("pdf", MediaType.APPLICATION_PDF);
+    }
 }
+
