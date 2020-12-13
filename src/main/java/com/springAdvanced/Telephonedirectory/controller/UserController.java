@@ -3,6 +3,7 @@ package com.springAdvanced.Telephonedirectory.controller;
 import com.springAdvanced.Telephonedirectory.model.User;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
 import com.springAdvanced.Telephonedirectory.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,13 +61,13 @@ public class UserController {
         return new ModelAndView("edit_user", params);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
     @ResponseBody
     private User getUser(@PathVariable("id") Long id) {
         return userRepository.findById(id).get();
     }
 
-    @GetMapping("/users/{limit}/{sort}")
+    @GetMapping(value = "/users/{limit}/{sort}", produces = MediaType.APPLICATION_PDF_VALUE)
     @ResponseBody
     private List<User> getListUserLimit(@PathVariable("limit") Long limit,
                                         @PathVariable("sort") String sort) {
