@@ -3,6 +3,7 @@ package com.springAdvanced.Telephonedirectory.controller;
 import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
 import com.springAdvanced.Telephonedirectory.model.User;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
+import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,21 +29,17 @@ public class UserController {
     }
 
     //creating post mapping that post the user detail in the database
-    @PostMapping("/user")
-    private ModelAndView saveUser(@RequestParam(value = "first_name") String firstName,
-                                  @RequestParam(value = "last_name") String lastName) {
-        System.out.println("Start saveUser");
-        User user = User.builder()
-                .first_name(firstName)
-                .last_name(lastName)
-                .build();
-        User userSaved = userRepository.save(user);
-        System.out.println("userSaved = " + userSaved.getId() + userSaved.getFirst_name());
+    @PostMapping(value = "/user")
+    private ModelAndView saveUser(
+        //    @RequestBody  //Spring doesn't understand application/x-www-form-urlencoded as a RequestBody
+                    User user
+    ) {
+        userRepository.save(user);
         return new ModelAndView("redirect:/users");
     }
 
     @PostMapping("/user/edit/{id}")
-    private ModelAndView updatePhoneNumber(@PathVariable("id") Long id,
+    private ModelAndView editUser(@PathVariable("id") Long id,
                                            @RequestParam(value = "first_name") String firstName,
                                            @RequestParam(value = "last_name") String lastName) {
         User userDB = userRepository.findById(id).get();
@@ -54,7 +51,7 @@ public class UserController {
 
     //update a specific user
     @GetMapping("/user/edit/{id}")
-    private ModelAndView updatePhoneNumber(@PathVariable("id") Long id) {
+    private ModelAndView editUser(@PathVariable("id") Long id) {
         var params = new HashMap<String, Object>();
         params.put("user", userRepository.findById(id).get());
         return new ModelAndView("edit_user", params);
