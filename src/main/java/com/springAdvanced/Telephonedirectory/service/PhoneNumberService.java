@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 public class PhoneNumberService {
@@ -44,7 +45,7 @@ public class PhoneNumberService {
         this.userAccountRepository = userAccountRepository;
     }
 
-    public void changeMobileOperator(PhoneNumber phoneNumber, UserAccount userAccount){
+    public void changeMobileOperator(PhoneNumber phoneNumber, UserAccount userAccount) {
 
     }
 
@@ -62,12 +63,6 @@ public class PhoneNumberService {
         return companies;
     }
 
-    //getting all records
-    public List<User> getAllUser() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(user -> users.add(user));
-        return users;
-    }
 
     //getting a specific record
     public PhoneNumber getPhoneNumberById(String number) {
@@ -91,7 +86,7 @@ public class PhoneNumberService {
         }
     }
 
-    @Transactional (propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     public void changeMobileOperator(PhoneNumber phoneNumber) {
         AccountId accountId = new AccountId(phoneNumber.getUser().getId(), phoneNumber.getCompany().getId());
         UserAccount userAccount = userAccountRepository.findById(accountId).get();

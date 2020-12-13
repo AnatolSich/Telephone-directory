@@ -1,8 +1,12 @@
 package com.springAdvanced.Telephonedirectory.repository;
 
 import com.springAdvanced.Telephonedirectory.model.User;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Long>
+import java.util.List;
+
+public interface UserRepository extends JpaRepository<User, Long>
 {
 }

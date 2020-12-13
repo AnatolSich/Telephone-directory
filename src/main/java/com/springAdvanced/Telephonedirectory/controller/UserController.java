@@ -1,23 +1,26 @@
 package com.springAdvanced.Telephonedirectory.controller;
 
-import com.springAdvanced.Telephonedirectory.model.PhoneNumber;
 import com.springAdvanced.Telephonedirectory.model.User;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
-import org.springframework.http.MediaType;
+import com.springAdvanced.Telephonedirectory.service.UserService;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class UserController {
 
     final
     UserRepository userRepository;
+    final
+    UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/users")
@@ -31,8 +34,8 @@ public class UserController {
     //creating post mapping that post the user detail in the database
     @PostMapping(value = "/user")
     private ModelAndView saveUser(
-        //    @RequestBody  //Spring doesn't understand application/x-www-form-urlencoded as a RequestBody
-                    User user
+            //    @RequestBody  //Spring doesn't understand application/x-www-form-urlencoded as a RequestBody
+            User user
     ) {
         userRepository.save(user);
         return new ModelAndView("redirect:/users");
@@ -40,8 +43,8 @@ public class UserController {
 
     @PostMapping("/user/edit/{id}")
     private ModelAndView editUser(@PathVariable("id") Long id,
-                                           @RequestParam(value = "first_name") String firstName,
-                                           @RequestParam(value = "last_name") String lastName) {
+                                  @RequestParam(value = "first_name") String firstName,
+                                  @RequestParam(value = "last_name") String lastName) {
         User userDB = userRepository.findById(id).get();
         userDB.setFirst_name(firstName);
         userDB.setLast_name(lastName);
@@ -57,4 +60,17 @@ public class UserController {
         return new ModelAndView("edit_user", params);
     }
 
+    @GetMapping("/user/{id}")
+    @ResponseBody
+    private User getUser(@PathVariable("id") Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    @GetMapping("/users/{limit}/{sort}")
+    @ResponseBody
+    private List<User> getListUserLimit(@PathVariable("limit") Long limit,
+                                        @PathVariable("sort") String sort) {
+        return userService.getAllUserLimit(limit, sort);
+    }
 }
+

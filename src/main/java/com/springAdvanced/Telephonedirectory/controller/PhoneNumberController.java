@@ -7,6 +7,7 @@ import com.springAdvanced.Telephonedirectory.repository.PhoneNumberRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserAccountRepository;
 import com.springAdvanced.Telephonedirectory.repository.UserRepository;
 import com.springAdvanced.Telephonedirectory.service.PhoneNumberService;
+import com.springAdvanced.Telephonedirectory.service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class PhoneNumberController {
     final
     PhoneNumberService phoneNumberService;
     final
+    UserService userService;
+    final
     UserRepository userRepository;
     final
     CompanyRepository companyRepository;
@@ -32,8 +35,9 @@ public class PhoneNumberController {
     final
     UserAccountRepository userAccountRepository;
 
-    public PhoneNumberController(PhoneNumberService phoneNumberService, UserRepository userRepository, CompanyRepository companyRepository, PhoneNumberRepository phoneNumberRepository, UserAccountRepository userAccountRepository) {
+    public PhoneNumberController(PhoneNumberService phoneNumberService, UserService userService, UserRepository userRepository, CompanyRepository companyRepository, PhoneNumberRepository phoneNumberRepository, UserAccountRepository userAccountRepository) {
         this.phoneNumberService = phoneNumberService;
+        this.userService = userService;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.phoneNumberRepository = phoneNumberRepository;
@@ -73,7 +77,7 @@ public class PhoneNumberController {
         var params = new HashMap<String, Object>();
         params.put("phoneNumber", phoneNumberService.getPhoneNumberById(number));
         params.put("companies", phoneNumberService.getAllCompany());
-        params.put("users", phoneNumberService.getAllUser());
+        params.put("users", userService.getAllUser());
         return new ModelAndView("update_number", params);
     }
 
