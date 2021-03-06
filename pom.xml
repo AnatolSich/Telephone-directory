@@ -12,6 +12,7 @@
 	<artifactId>Telephone-directory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Telephone-directory</name>
+	<packaging>war</packaging>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
